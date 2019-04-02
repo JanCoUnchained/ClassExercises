@@ -251,6 +251,8 @@ pred.m1 <- link( m1 , data=age.predict )
 mu <- apply( pred.m1 , 2 , mean )
 mu.PI <- apply( pred.m1 , 2 , PI )
 
+plot( height ~ age , d1 , col=rangi2 )
+
 #ensemble
 age.ensemble <- ensemble(m1, m2, m3, m4, m5, m6, data = age.predict)
 mu <- apply( age.ensemble$link , 2 , mean )

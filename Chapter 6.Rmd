@@ -252,6 +252,9 @@ mu <- apply( pred.m1 , 2 , mean )
 mu.PI <- apply( pred.m1 , 2 , PI )
 
 plot( height ~ age , d1 , col=rangi2 )
+lines( age.seq , mu , lty=2 )
+lines( age.seq , mu.PI[1,] , lty=2 )
+lines( age.seq , mu.PI[2,] , lty=2 )
 
 #ensemble
 age.ensemble <- ensemble(m1, m2, m3, m4, m5, m6, data = age.predict)

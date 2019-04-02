@@ -122,19 +122,120 @@ precis(m6)
 comparisons <- compare(m1, m2, m3, m4, m5, m6)
 ```
 
-#6H2
-```{r}
-plot( comparisons , SE=TRUE , dSE=TRUE )
-```
+#6H2 & H3
 
-#6H3
+model1
 ```{r}
 
+age.seq <- seq(from = -3, to = 3, by = 0.1)
+sim.age <- sim(m1, data = list(age = age.seq))
+height.PI <- apply(sim.age, 2, PI, prob = 0.97)
+mu <- link(m1)
+mu <- link(m1, data = data.frame(age = age.seq))
+mu.mean <- apply(mu, 2, mean) 
+mu.HPDI <- apply(mu, 2, HPDI, prob = 0.97)
+
+plot(height ~ age, d1, col = col.alpha(rangi2, 1))
+lines(age.seq, mu.mean)
+# draw HPDI region for line
+shade(mu.HPDI, age.seq )
+# draw PI region for simulated heights
+shade(height.PI, age.seq ) 
+
 ```
 
-#6H4
+model2 
+
 ```{r}
-sum( dnorm( d2$height , mu , sigma , log=TRUE ) )
+age.seq <- seq(from = -3, to = 3, by = 0.1)
+sim.age <- sim(m2, data = list(age = age.seq))
+height.PI <- apply(sim.age, 2, PI, prob = 0.97)
+mu <- link(m2)
+mu <- link(m2, data = data.frame(age = age.seq))
+mu.mean <- apply(mu, 2, mean) 
+mu.HPDI <- apply(mu, 2, HPDI, prob = 0.97)
+
+plot(height ~ age + age ^2 , d1, col = col.alpha(rangi2, 1))
+lines(age.seq, mu.mean)
+# draw HPDI region for line
+shade(mu.HPDI, age.seq )
+# draw PI region for simulated heights
+shade(height.PI, age.seq ) 
+```
+
+model3
+
+```{r}
+age.seq <- seq(from = -3, to = 3, by = 0.1)
+sim.age <- sim(m3, data = list(age = age.seq))
+height.PI <- apply(sim.age, 2, PI, prob = 0.97)
+mu <- link(m3)
+mu <- link(m3, data = data.frame(age = age.seq))
+mu.mean <- apply(mu, 2, mean) 
+mu.HPDI <- apply(mu, 2, HPDI, prob = 0.97)
+
+plot(height ~ age + age ^2 , d1, col = col.alpha(rangi2, 1))
+lines(age.seq, mu.mean)
+# draw HPDI region for line
+shade(mu.HPDI, age.seq )
+# draw PI region for simulated heights
+shade(height.PI, age.seq ) 
+```
+
+model4
+
+```{r}
+age.seq <- seq(from = -3, to = 3, by = 0.1)
+sim.age <- sim(m4, data = list(age = age.seq))
+height.PI <- apply(sim.age, 2, PI, prob = 0.97)
+mu <- link(m4)
+mu <- link(m4, data = data.frame(age = age.seq))
+mu.mean <- apply(mu, 2, mean) 
+mu.HPDI <- apply(mu, 2, HPDI, prob = 0.97)
+
+plot(height ~ age + age ^2 , d1, col = col.alpha(rangi2, 1))
+lines(age.seq, mu.mean)
+# draw HPDI region for line
+shade(mu.HPDI, age.seq )
+# draw PI region for simulated heights
+shade(height.PI, age.seq ) 
 ```
 
 
+model5
+
+```{r}
+age.seq <- seq(from = -3, to = 3, by = 0.1)
+sim.age <- sim(m5, data = list(age = age.seq))
+height.PI <- apply(sim.age, 2, PI, prob = 0.97)
+mu <- link(m5)
+mu <- link(m5, data = data.frame(age = age.seq))
+mu.mean <- apply(mu, 2, mean) 
+mu.HPDI <- apply(mu, 2, HPDI, prob = 0.97)
+
+plot(height ~ age + age ^2 , d1, col = col.alpha(rangi2, 1))
+lines(age.seq, mu.mean)
+# draw HPDI region for line
+shade(mu.HPDI, age.seq )
+# draw PI region for simulated heights
+shade(height.PI, age.seq ) 
+```
+
+model6
+
+```{r}
+age.seq <- seq(from = -3, to = 3, by = 0.1)
+sim.age <- sim(m6, data = list(age = age.seq))
+height.PI <- apply(sim.age, 2, PI, prob = 0.97)
+mu <- link(m6)
+mu <- link(m6, data = data.frame(age = age.seq))
+mu.mean <- apply(mu, 2, mean) 
+mu.HPDI <- apply(mu, 2, HPDI, prob = 0.97)
+
+plot(height ~ age + age ^2 , d1, col = col.alpha(rangi2, 1))
+lines(age.seq, mu.mean)
+# draw HPDI region for line
+shade(mu.HPDI, age.seq )
+# draw PI region for simulated heights
+shade(height.PI, age.seq ) 
+```

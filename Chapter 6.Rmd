@@ -247,9 +247,9 @@ height = rep(0,30), # empty outcome
 age = age.seq #average of verbal
 )
 
-pred.m1 <- link( m1 , data=age.predict )
-mu <- apply( pred.m1 , 2 , mean )
-mu.PI <- apply( pred.m1 , 2 , PI )
+pred.m4 <- link( m4 , data=age.predict )
+mu <- apply( pred.m4 , 2 , mean )
+mu.PI <- apply( pred.m4 , 2 , PI )
 
 plot( height ~ age , d1 , col=rangi2 )
 lines( age.seq , mu , lty=2 )

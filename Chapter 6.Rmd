@@ -8,10 +8,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(lmerTest)
 library(rethinking)
+library(tidyverse)
+
+# bogus data
 data(Howell1)
 d <- Howell1
 d$age <- (d$age - mean(d$age))/sd(d$age)
 set.seed( 1000 )
+
+# train-test
 i <- sample(1:nrow(d),size=nrow(d)/2)
 d1 <- d[ i , ]
 d2 <- d[ -i , ]
@@ -20,8 +25,8 @@ d2 <- d[ -i , ]
 #6H1. 
 ```{r}
 mean(d1$height)
-centering(d1$height)
-d1$age_scale <- scale(d1$age)
+#centering(d1$height)
+#d1$age_scale <- scale(d1$age)
 
 m1 <- rethinking::map(
   alist(
@@ -114,12 +119,22 @@ precis(m3)
 precis(m4)
 precis(m5)
 precis(m6)
-compare(m1, m2, m3, m4, m5, m6)
+comparisons <- compare(m1, m2, m3, m4, m5, m6)
 ```
 
 #6H2
 ```{r}
+plot( comparisons , SE=TRUE , dSE=TRUE )
+```
 
+#6H3
+```{r}
+
+```
+
+#6H4
+```{r}
+sum( dnorm( d2$height , mu , sigma , log=TRUE ) )
 ```
 
 

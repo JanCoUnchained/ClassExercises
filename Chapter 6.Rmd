@@ -122,7 +122,7 @@ precis(m6)
 comparisons <- compare(m1, m2, m3, m4, m5, m6)
 ```
 
-#6H2 & H3
+#6H2
 
 model1
 ```{r}
@@ -239,3 +239,10 @@ shade(mu.HPDI, age.seq )
 # draw PI region for simulated heights
 shade(height.PI, age.seq ) 
 ```
+
+
+#6H3
+```{r}
+something
+```
+

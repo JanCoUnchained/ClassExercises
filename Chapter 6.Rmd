@@ -20,7 +20,8 @@ d2 <- d[ -i , ]
 #6H1. 
 ```{r}
 mean(d1$height)
-lm(height ~ weight, data = d1)
+centering(d1$height)
+d1$age_scale <- scale(d1$age)
 
 m1 <- rethinking::map(
   alist(
@@ -29,8 +30,11 @@ m1 <- rethinking::map(
     alpha ~ dnorm(140, 20),
     b1 ~ dnorm(0, 20),
     sigma ~ dnorm(0, 20)
-  ), data = d1)
-precis(m1)
+  ), data = d1,
+method="Nelder-Mead" ,
+control=list(maxit=1e4))
+
+precis(m1) #how 
 
 
 m2 <- rethinking::map(
@@ -41,7 +45,9 @@ m2 <- rethinking::map(
     b1 ~ dnorm(0, 20),
     b2 ~ dnorm(0, 20),
     sigma ~ dnorm(0, 20)
-  ), data = d1)
+  ), data = d1,
+  method="Nelder-Mead" ,
+control=list(maxit=1e4))
 
 m3 <- rethinking::map(
   alist(
@@ -52,7 +58,9 @@ m3 <- rethinking::map(
     b2 ~ dnorm(0, 20),
     b3 ~ dnorm(0, 20),
     sigma ~ dnorm(0, 20)
-  ), data = d1)
+  ), data = d1,
+  method="Nelder-Mead" ,
+control=list(maxit=1e4))
 
 m4 <- rethinking::map(
   alist(
@@ -62,9 +70,11 @@ m4 <- rethinking::map(
     b1 ~ dnorm(0, 20),
     b2 ~ dnorm(0, 20),
     b3 ~ dnorm(0, 20),
-    b4 ~ dnorm(0, 20),
+    b4 ~ dnorm(0, 10),
     sigma ~ dnorm(0, 20)
-  ), data = d1)
+  ), data = d1,
+  method="Nelder-Mead" ,
+control=list(maxit=1e4))
 
 m5 <- rethinking::map(
   alist(
@@ -74,10 +84,12 @@ m5 <- rethinking::map(
     b1 ~ dnorm(0, 20),
     b2 ~ dnorm(0, 20),
     b3 ~ dnorm(0, 20),
-    b4 ~ dnorm(0, 20),
-    b5 ~ dnorm(0, 20),
+    b4 ~ dnorm(0, 10),
+    b5 ~ dnorm(0, 10),
     sigma ~ dnorm(0, 20)
-  ), data = d1)
+  ), data = d1,
+  method="Nelder-Mead" ,
+control=list(maxit=1e4))
 
 m6 <- rethinking::map(
   alist(
@@ -87,11 +99,13 @@ m6 <- rethinking::map(
     b1 ~ dnorm(0, 20),
     b2 ~ dnorm(0, 20),
     b3 ~ dnorm(0, 20),
-    b4 ~ dnorm(0, 20),
-    b5 ~ dnorm(0, 20),
-    b6 ~ dnorm(0, 20),
+    b4 ~ dnorm(0, 10),
+    b5 ~ dnorm(0, 10),
+    b6 ~ dnorm(0, 10),
     sigma ~ dnorm(0, 20)
-  ), data = d1)
+  ), data = d1,
+  method="Nelder-Mead" ,
+control=list(maxit=1e4))
 
 
 precis(m1)

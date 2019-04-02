@@ -46,7 +46,7 @@ m2 <- rethinking::map(
     mu <- alpha + b1*age + b2*age^2,
     alpha ~ dnorm(140, 20),
     b1 ~ dnorm(0, 50),
-    b2 ~ dnorm(0, 20),
+    b2 ~ dnorm(0, 10),
     sigma ~ dnorm(0, 20)
   ), data = d1,
   method="Nelder-Mead" ,
@@ -58,8 +58,8 @@ m3 <- rethinking::map(
     mu <- alpha + b1*age + b2*age^2 + b3*age^3,
     alpha ~ dnorm(140, 20),
     b1 ~ dnorm(0, 50),
-    b2 ~ dnorm(0, 20),
-    b3 ~ dnorm(0, 20),
+    b2 ~ dnorm(0, 10),
+    b3 ~ dnorm(0, 10),
     sigma ~ dnorm(0, 20)
   ), data = d1,
   method="Nelder-Mead" ,
@@ -71,9 +71,9 @@ m4 <- rethinking::map(
     mu <- alpha + b1*age + b2*age^2 + b3*age^3 + b4*age^4,
     alpha ~ dnorm(140, 20),
     b1 ~ dnorm(0, 50),
-    b2 ~ dnorm(0, 20),
-    b3 ~ dnorm(0, 20),
-    b4 ~ dnorm(0, 10),
+    b2 ~ dnorm(0, 10),
+    b3 ~ dnorm(0, 10),
+    b4 ~ dnorm(0, 5),
     sigma ~ dnorm(0, 20)
   ), data = d1,
   method="Nelder-Mead" ,
@@ -85,10 +85,10 @@ m5 <- rethinking::map(
     mu <- alpha + b1*age + b2*age^2 + b3*age^3 + b4*age^4 + b5*age^5,
     alpha ~ dnorm(140, 20),
     b1 ~ dnorm(0, 50),
-    b2 ~ dnorm(0, 20),
-    b3 ~ dnorm(0, 20),
-    b4 ~ dnorm(0, 10),
-    b5 ~ dnorm(0, 10),
+    b2 ~ dnorm(0, 10),
+    b3 ~ dnorm(0, 10),
+    b4 ~ dnorm(0, 5),
+    b5 ~ dnorm(0, 5),
     sigma ~ dnorm(0, 20)
   ), data = d1,
   method="Nelder-Mead" ,
@@ -100,11 +100,11 @@ m6 <- rethinking::map(
     mu <- alpha + b1*age + b2*age^2 + b3*age^3 + b4*age^4 + b5*age^5 + b6*age^6,
     alpha ~ dnorm(140, 20),
     b1 ~ dnorm(0, 50),
-    b2 ~ dnorm(0, 20),
-    b3 ~ dnorm(0, 20),
-    b4 ~ dnorm(0, 10),
-    b5 ~ dnorm(0, 10),
-    b6 ~ dnorm(0, 10),
+    b2 ~ dnorm(0, 10),
+    b3 ~ dnorm(0, 10),
+    b4 ~ dnorm(0, 5),
+    b5 ~ dnorm(0, 5),
+    b6 ~ dnorm(0, 5),
     sigma ~ dnorm(0, 20)
   ), data = d1,
   method="Nelder-Mead" ,
@@ -241,12 +241,13 @@ shade(height.PI, age.seq )
 
 #6H3
 ```{r}
+nc.seq <- seq()
+
 m.ensemble <- ensemble( m1 , m2 , m3 , m4, m5, m6 , data=d1 )
 
-mu <- apply( milk.ensemble$link , 2 , mean )
-mu.PI <- apply( milk.ensemble$link , 2 , PI )
+mu <- apply( m.ensemble$link , 2 , mean )
+mu.PI <- apply( m.ensemble$link , 2 , PI )
 
 lines( nc.seq , mu )
 shade( mu.PI , nc.seq )
 ```
-

@@ -33,13 +33,11 @@ m1 <- rethinking::map(
     height ~ dnorm(mu, sigma),
     mu <- alpha + b1*age,
     alpha ~ dnorm(140, 20),
-    b1 ~ dnorm(0, 20),
+    b1 ~ dnorm(0, 50),
     sigma ~ dnorm(0, 20)
   ), data = d1,
 method="Nelder-Mead" ,
 control=list(maxit=1e4))
-
-precis(m1) #how 
 
 
 m2 <- rethinking::map(
@@ -47,7 +45,7 @@ m2 <- rethinking::map(
     height ~ dnorm(mu, sigma),
     mu <- alpha + b1*age + b2*age^2,
     alpha ~ dnorm(140, 20),
-    b1 ~ dnorm(0, 20),
+    b1 ~ dnorm(0, 50),
     b2 ~ dnorm(0, 20),
     sigma ~ dnorm(0, 20)
   ), data = d1,
@@ -59,7 +57,7 @@ m3 <- rethinking::map(
     height ~ dnorm(mu, sigma),
     mu <- alpha + b1*age + b2*age^2 + b3*age^3,
     alpha ~ dnorm(140, 20),
-    b1 ~ dnorm(0, 20),
+    b1 ~ dnorm(0, 50),
     b2 ~ dnorm(0, 20),
     b3 ~ dnorm(0, 20),
     sigma ~ dnorm(0, 20)
@@ -72,7 +70,7 @@ m4 <- rethinking::map(
     height ~ dnorm(mu, sigma),
     mu <- alpha + b1*age + b2*age^2 + b3*age^3 + b4*age^4,
     alpha ~ dnorm(140, 20),
-    b1 ~ dnorm(0, 20),
+    b1 ~ dnorm(0, 50),
     b2 ~ dnorm(0, 20),
     b3 ~ dnorm(0, 20),
     b4 ~ dnorm(0, 10),
@@ -86,7 +84,7 @@ m5 <- rethinking::map(
     height ~ dnorm(mu, sigma),
     mu <- alpha + b1*age + b2*age^2 + b3*age^3 + b4*age^4 + b5*age^5,
     alpha ~ dnorm(140, 20),
-    b1 ~ dnorm(0, 20),
+    b1 ~ dnorm(0, 50),
     b2 ~ dnorm(0, 20),
     b3 ~ dnorm(0, 20),
     b4 ~ dnorm(0, 10),
@@ -101,7 +99,7 @@ m6 <- rethinking::map(
     height ~ dnorm(mu, sigma),
     mu <- alpha + b1*age + b2*age^2 + b3*age^3 + b4*age^4 + b5*age^5 + b6*age^6,
     alpha ~ dnorm(140, 20),
-    b1 ~ dnorm(0, 20),
+    b1 ~ dnorm(0, 50),
     b2 ~ dnorm(0, 20),
     b3 ~ dnorm(0, 20),
     b4 ~ dnorm(0, 10),
@@ -243,6 +241,12 @@ shade(height.PI, age.seq )
 
 #6H3
 ```{r}
-something
+m.ensemble <- ensemble( m1 , m2 , m3 , m4, m5, m6 , data=d1 )
+
+mu <- apply( milk.ensemble$link , 2 , mean )
+mu.PI <- apply( milk.ensemble$link , 2 , PI )
+
+lines( nc.seq , mu )
+shade( mu.PI , nc.seq )
 ```
 

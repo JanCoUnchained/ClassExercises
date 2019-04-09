@@ -1,0 +1,68 @@
+---
+title: "7H4"
+author: "Victor Møller"
+date: "9 apr 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(pacman) 
+p_load(rethinking, brms, tidyverse)
+
+
+#data
+data(nettle)
+d <- nettle
+d$lpc <- d$num.lang / d$k.pop
+d$llpc <- log(d$lpc)
+d$mgs <- d$mean.growing.season
+d$logarea <- log(d$area)
+
+#mean centering predictors. 
+d <- d %>%
+  mutate(mean_logarea = logarea - mean(logarea),
+         mean_mgs = mgs - mean(mgs))
+
+#subset
+d_m9.1 <- d %>%
+  select(llpc, mean_mgs, mean_logarea) 
+  
+#model
+m9.1 <- map2stan(
+alist(
+llpc ~ dnorm( mu , sigma ) ,
+mu <- a + b * mean_mgs + c * mean_logarea,
+a ~ dnorm( -6, 3 ) , #95% between 0 & -12. 
+b ~ dnorm( 0, 1 ) , #growing.season
+c ~ dnorm( 0, 1 ), #log(area). 
+sigma ~ dnorm( 0, 1 ) 
+) ,
+data=d_m9.1 , chains=2, cores = 4, iter = 1000 )
+
+#checking. 
+pairs(m9.1) #looks good & uncorrelated. 
+plot(m9.1) #looks good, but we need zoom. 
+precis(m9.1) #looks good.
+
+#language cor. w. growing season (there is a positive cor.)
+#mean_logarea to close path (I.e., DAG). 
+
+#DAG 
+library(dagitty)
+library(lavaan)
+g <- dagitty('dag {
+    growing_season [pos="1,2"]
+    group_size [pos="2,1"]
+    language_diversity [pos="3,2"]
+    nation_size [pos="2,3"]
+
+    growing_season -> group_size -> language_diversity
+    nation_size -> language_diversity
+    growing_season -> nation_size -> language_diversity
+}')
+
+plot(g)
+
+```
+
+

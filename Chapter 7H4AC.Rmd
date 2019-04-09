@@ -1,0 +1,49 @@
+---
+title: "Chapter 7H4"
+author: "JanCo"
+date: "April 9, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(rethinking)
+library(janitor)
+library(tidyverse)
+```
+
+```{r}
+data(nettle)
+d<-nettle
+d$lpc <- d$num.lang/d$k.pop
+d$llpc <- log(d$lpc)
+d$mgs <- d$mean.growing.season
+d$logarea <- log(d$area)
+d<- clean_names(d)
+```
+
+```{r}
+model1 <- rethinking::map2stan(
+  alist(
+    llpc~ dnorm(mu,sigma),
+    mu<- a +b1 * mgs + b2 *logarea,
+    a ~ dnorm(-6,3),
+    b1 ~ dnorm(0,1),
+    b2~ dnorm(0,1),
+    sigma ~ dnorm(0,1)
+  ),
+data=d, chains =2, cores=2, iter=1000)
+
+precis(model1)
+pairs(model1)
+```
+
+```{r}
+
+```
+
+
+

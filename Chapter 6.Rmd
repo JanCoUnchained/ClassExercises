@@ -241,13 +241,25 @@ shade(height.PI, age.seq )
 
 #6H3
 ```{r}
-nc.seq <- seq()
+age.seq <- seq(from=-3,to=3,length.out=30)
+age.predict <- list(
+height = rep(0,30), # empty outcome
+age = age.seq #average of verbal
+)
 
-m.ensemble <- ensemble( m1 , m2 , m3 , m4, m5, m6 , data=d1 )
+pred.m4 <- link( m4 , data=age.predict )
+mu <- apply( pred.m4 , 2 , mean )
+mu.PI <- apply( pred.m4 , 2 , PI )
 
-mu <- apply( m.ensemble$link , 2 , mean )
-mu.PI <- apply( m.ensemble$link , 2 , PI )
+plot( height ~ age , d1 , col=rangi2 )
+lines( age.seq , mu , lty=2 )
+lines( age.seq , mu.PI[1,] , lty=2 )
+lines( age.seq , mu.PI[2,] , lty=2 )
 
-lines( nc.seq , mu )
-shade( mu.PI , nc.seq )
+#ensemble
+age.ensemble <- ensemble(m1, m2, m3, m4, m5, m6, data = age.predict)
+mu <- apply( age.ensemble$link , 2 , mean )
+mu.PI <- apply( age.ensemble$link , 2 , PI )
+lines( age.seq , mu )
+shade( mu.PI , age.seq )
 ```
